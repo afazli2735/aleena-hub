@@ -420,7 +420,7 @@ function MeetingNotesTab({ sessions, setSessions, onPushToHub, tasks, onApplyTas
     const taskList = tasks.filter(t => t.status !== "done").map(t => ({ id: t.id, title: t.title }));
     try {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST", headers: { "Content-Type": "application/json", "x-api-key": "YOUR_API_KEY_HERE", "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+        method: "POST", headers: { "Content-Type": "application/json", "x-api-key": import.meta.env.VITE_API_KEY, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514", max_tokens: 2000,
           system: `You are a meeting notes parser for a 1:1 between Aleena (employee) and Elisa (manager) at Stanford GSB admissions marketing.\n\nReturn ONLY valid JSON:\n{\n  "takeaways": { "decisions": [], "elisaActions": [], "myActions": [], "openQuestions": [] },\n  "taskSync": {\n    "newTasks": [{ "title": "...", "category": "...", "priority": "high|medium|low", "dueDate": "YYYY-MM-DD or null", "note": "..." }],\n    "noteUpdates": [{ "taskId": <number>, "note": "..." }]\n  }\n}\nRules: each takeaway = 1 sentence. newTasks = only Aleena's commitments. category one of: Website, Scripts / NRM, App Bootcamp, Emails, Forms, Goals, Analytics. Return ONLY JSON.`,
@@ -851,7 +851,7 @@ function GoalsTab({ goals, setGoals, tasks, onUpdateTask }) {
       const isPdf = file.type === "application/pdf";
       try {
         const res = await fetch("https://api.anthropic.com/v1/messages", {
-          method: "POST", headers: { "Content-Type": "application/json", "x-api-key": "YOUR_API_KEY_HERE", "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+          method: "POST", headers: { "Content-Type": "application/json", "x-api-key": import.meta.env.VITE_API_KEY, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
           body: JSON.stringify({
             model: "claude-sonnet-4-20250514", max_tokens: 2000,
             system: `You are extracting goals from a document for Aleena, a marketing manager at Stanford GSB admissions.
